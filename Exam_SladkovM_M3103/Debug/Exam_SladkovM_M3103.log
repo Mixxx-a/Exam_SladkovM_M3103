@@ -1,0 +1,14 @@
+﻿  Exam_My_turn.c
+  Exam_My_fleet.c
+  Exam_Main.c
+c:\users\mi\desktop\exam_sladkovm_m3103\exam_sladkovm_m3103\exam_main.c(30): warning C4013: _getch: нет определения; предполагается "extern" с возвратом типа "int"
+  Exam_Enemy_turn.c
+  Exam_Enemy_fleet.c
+c:\users\mi\desktop\exam_sladkovm_m3103\exam_sladkovm_m3103\exam_enemy_fleet.c(5): warning C4244: функция: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Создание кода...
+c:\users\mi\desktop\exam_sladkovm_m3103\exam_sladkovm_m3103\exam_enemy_turn.c(27): warning C4715: Enemy_turn_t1: значение возвращается не при всех путях выполнения
+c:\users\mi\desktop\exam_sladkovm_m3103\exam_sladkovm_m3103\exam_enemy_turn.c(109): warning C4715: Enemy_turn_t2: значение возвращается не при всех путях выполнения
+c:\users\mi\desktop\exam_sladkovm_m3103\exam_sladkovm_m3103\exam_my_fleet.c(116): warning C4715: Symbol_number: значение возвращается не при всех путях выполнения
+c:\users\mi\desktop\exam_sladkovm_m3103\exam_sladkovm_m3103\exam_my_fleet.c(154): warning C4715: Number_symbol: значение возвращается не при всех путях выполнения
+c:\users\mi\desktop\exam_sladkovm_m3103\exam_sladkovm_m3103\exam_my_turn.c(46): warning C4715: My_turn: значение возвращается не при всех путях выполнения
+  Exam_SladkovM_M3103.vcxproj -> C:\Users\mi\Desktop\Exam_SladkovM_M3103\Debug\Exam_SladkovM_M3103.exe
