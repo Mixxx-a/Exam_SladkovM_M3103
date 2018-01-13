@@ -35,5 +35,8 @@
     <ClCompile Include="Exam_Enemy_turn.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Exam_battle.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

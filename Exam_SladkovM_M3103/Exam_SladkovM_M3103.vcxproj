@@ -114,6 +114,7 @@
     <ClInclude Include="Exam.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Exam_battle.c" />
     <ClCompile Include="Exam_Enemy_fleet.c" />
     <ClCompile Include="Exam_Enemy_turn.c" />
     <ClCompile Include="Exam_Main.c" />

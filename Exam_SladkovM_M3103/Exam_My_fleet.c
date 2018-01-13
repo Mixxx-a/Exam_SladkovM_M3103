@@ -13,15 +13,15 @@ void Place_my_fleet()
 		Place_my_ship(2);
 		My_correction();
 	}
-	for (int i = 0; i < 10; i++)
-		for (int j = 0; j < 10; j++)
-			if (my_fleet[i][j] == 2)
-				my_fleet[i][j] = 0;
+	for (int i = 0; i < bat_length; i++)
+		for (int j = 0; j < bat_length; j++)
+			if (my_fleet[i][j] == cell_nothing)
+				my_fleet[i][j] = cell_empty;
 }
 
 int Place_my_ship(int decks)
 {
-	int w, i, cor_cell = 1;
+	int w = 0, i, cor_cell = 1;
 	char h;
 	int ar_cells[8];
 	printf("Input cells for %d decks ship (with spaces):\n", decks);
@@ -29,13 +29,17 @@ int Place_my_ship(int decks)
 	{
 		scanf("%s", pos);
 		h = pos[0];
-		pos[0] = pos[1];
-		pos[1] = pos[2];
-		pos[2] = '\0';
-		w = atoi(pos) - 1;
+		int j = 1;
+		w = 0;
+		while (pos[j] != '\0')
+		{
+			w = 10 * w + pos[j] - 48;
+			j++;
+		}
+		w--;
 		ar_cells[2 * i] = Symbol_number(h);
 		ar_cells[2 * i + 1] = w;
-		if (my_fleet[Symbol_number(h)][w] != 0)
+		if (my_fleet[Symbol_number(h)][w] != cell_empty)
 			cor_cell = 0;
 	}
 	if (cor_cell == 0)
@@ -46,14 +50,15 @@ int Place_my_ship(int decks)
 	}
 	for (i = 0; i < decks; i++)
 	{
-		my_fleet[ar_cells[2 * i]][ar_cells[2 * i + 1]] = 1;
+
+		my_fleet[ar_cells[2 * i]][ar_cells[2 * i + 1]] = cell_ship;
 		my_counter++;
 	}
 	if (Check_ship() == 0)
 	{
 		for (i = 0; i < decks; i++)
 		{
-			my_fleet[ar_cells[2 * i]][ar_cells[2 * i + 1]] = 0;
+			my_fleet[ar_cells[2 * i]][ar_cells[2 * i + 1]] = cell_nothing;
 			my_counter--;
 		}
 		printf("Cannot place like that! Try again.\n");
@@ -67,10 +72,13 @@ int Place_my_ship(int decks)
 int Check_ship()
 {
 	int count = 0;
-	for (int i = 0; i < 10; i++)
-		for (int j = 0; j < 10; j++)
-			if (my_fleet[i][j] == 1)
-				if (((i - 1 >= 0) && (my_fleet[i - 1][j] == 1)) || ((i + 1 < 10) && (my_fleet[i + 1][j] == 1)) || ((j - 1 >= 0) && (my_fleet[i][j - 1] == 1)) || ((j + 1 < 10) && (my_fleet[i][j + 1] == 1)))
+	for (int i = 0; i < bat_length; i++)
+		for (int j = 0; j < bat_length; j++)
+			if (my_fleet[i][j] == cell_ship)
+				if (((i - 1 >= 0) && (my_fleet[i - 1][j] == cell_ship)) 
+					|| ((i + 1 < bat_length) && (my_fleet[i + 1][j] == cell_ship)) 
+					|| ((j - 1 >= 0) && (my_fleet[i][j - 1] == cell_ship)) 
+					|| ((j + 1 < bat_length) && (my_fleet[i][j + 1] == cell_ship)))
 					count++;
 	if (count == my_counter)
 		return 1;
@@ -80,100 +88,37 @@ int Check_ship()
 
 int Symbol_number(char sym)
 {
-	switch (sym)
-	{
-	case 'A':
-	case 'a':
-		return 0;
-	case 'B':
-	case 'b':
-		return 1;
-	case 'C':
-	case 'c':
-		return 2;
-	case 'D':
-	case 'd':
-		return 3;
-	case 'E':
-	case 'e':
-		return 4;
-	case 'F':
-	case 'f':
-		return 5;
-	case 'G':
-	case 'g':
-		return 6;
-	case 'H':
-	case 'h':
-		return 7;
-	case 'I':
-	case 'i':
-		return 8;
-	case 'J':
-	case 'j':
-		return 9;
-	}
+	int num = sym - 97;
+	return num;
 }
 
 char Number_symbol(int num)
 {
-	char sym;
-	switch (num)
-	{
-	case 1:
-		sym = 'a';
-		return sym;
-	case 2:
-		sym = 'b';
-		return sym;
-	case 3:
-		sym = 'c';
-		return sym;
-	case 4:
-		sym = 'd';
-		return sym;
-	case 5:
-		sym = 'e';
-		return sym;
-	case 6:
-		sym = 'f';
-		return sym;
-	case 7:
-		sym = 'g';
-		return sym;
-	case 8:
-		sym = 'h';
-		return sym;
-	case 9:
-		sym = 'i';
-		return sym;
-	case 10:
-		sym = 'j';
-		return sym;
-	}
+	char sym = num + 96;
+	return sym;
 }
 
 void My_correction()
 {
-	for (int i = 0; i < 10; i++)
-		for (int j = 0; j < 10; j++)
-			if (my_fleet[i][j] == 1)
+	for (int i = 0; i < bat_length; i++)
+		for (int j = 0; j < bat_length; j++)
+			if (my_fleet[i][j] == cell_ship)
 			{
 				if ((i - 1 >= 0) && (j - 1 >= 0))
-					my_fleet[i - 1][j - 1] = 2;
-				if ((i - 1 >= 0) && (my_fleet[i - 1][j] != 1))
-					my_fleet[i - 1][j] = 2;
-				if ((i - 1 >= 0) && (j + 1 < 10))
-					my_fleet[i - 1][j + 1] = 2;
-				if ((j - 1 >= 0) && (my_fleet[i][j - 1] != 1))
-					my_fleet[i][j - 1] = 2;
-				if ((j + 1 < 10) && (my_fleet[i][j + 1] != 1))
-					my_fleet[i][j + 1] = 2;
-				if ((i + 1 < 10) && (j - 1 >= 0))
-					my_fleet[i + 1][j - 1] = 2;
-				if ((i + 1 < 10) && (my_fleet[i + 1][j] != 1))
-					my_fleet[i + 1][j] = 2;
-				if ((i + 1 < 10) && (j + 1 < 10))
-					my_fleet[i + 1][j + 1] = 2;
+					my_fleet[i - 1][j - 1] = cell_nothing;
+				if ((i - 1 >= 0) && (my_fleet[i - 1][j] != cell_ship))
+					my_fleet[i - 1][j] = cell_nothing;
+				if ((i - 1 >= 0) && (j + 1 < bat_length))
+					my_fleet[i - 1][j + 1] = cell_nothing;
+				if ((j - 1 >= 0) && (my_fleet[i][j - 1] != cell_ship))
+					my_fleet[i][j - 1] = cell_nothing;
+				if ((j + 1 < bat_length) && (my_fleet[i][j + 1] != cell_ship))
+					my_fleet[i][j + 1] = cell_nothing;
+				if ((i + 1 < bat_length) && (j - 1 >= 0))
+					my_fleet[i + 1][j - 1] = cell_nothing;
+				if ((i + 1 < bat_length) && (my_fleet[i + 1][j] != cell_ship))
+					my_fleet[i + 1][j] = cell_nothing;
+				if ((i + 1 < bat_length) && (j + 1 < bat_length))
+					my_fleet[i + 1][j + 1] = cell_nothing;
 			}
 }
